@@ -36,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { NavbarShell } from "@/components/shared/navbar-shell"
+import { SITE_CONFIG } from "@/lib/site-config"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { loadFromStorage, storageKeys } from "@/lib/local-storage"
@@ -93,9 +94,17 @@ const recentActivity = [
 const viewWeights = [0.14, 0.12, 0.15, 0.13, 0.16, 0.14, 0.16]
 const viewDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
+function isTaskEnabled(key: (typeof SITE_CONFIG.tasks)[number]["key"]) {
+  return SITE_CONFIG.tasks.some((task) => task.key === key && task.enabled)
+}
+
 export default function DashboardPage() {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState("overview")
+  const showArticles = isTaskEnabled("article")
+  const showListings = isTaskEnabled("listing")
+  const showClassifieds = isTaskEnabled("classified")
+  const defaultContentTab = showArticles ? "articles" : showListings ? "listings" : "ads"
   const { toast } = useToast()
   const [storedArticles, setStoredArticles] = useState<Article[]>([])
   const [storedListings, setStoredListings] = useState<Listing[]>([])
@@ -202,15 +211,15 @@ export default function DashboardPage() {
     return viewDays.map((name, index) => ({ name, views: distributed[index] || 0 }))
   }, [totalViews])
 
-  const contentData = useMemo(
-    () => [
-      { name: "Articles", count: userArticles.length },
-      { name: "Listings", count: userListings.length },
-      { name: "Ads", count: userAds.length },
-      { name: "Reviews", count: 0 },
-    ],
-    [userAds.length, userArticles.length, userListings.length]
-  )
+  const contentData = useMemo(() => {
+    const rows: { name: string; count: number }[] = []
+    if (showArticles) rows.push({ name: "Articles", count: userArticles.length })
+    if (showListings) rows.push({ name: "Listings", count: userListings.length })
+    if (showClassifieds) rows.push({ name: "Classifieds", count: userAds.length })
+    if (!rows.length) rows.push({ name: "Classifieds", count: userAds.length })
+    rows.push({ name: "Reviews", count: 0 })
+    return rows
+  }, [showArticles, showClassifieds, showListings, userAds.length, userArticles.length, userListings.length])
 
   const myContent = useMemo(
     () => ({
@@ -279,34 +288,42 @@ export default function DashboardPage() {
                 <Settings className="h-4 w-4" />
               </Link>
             </Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create New
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/articles/new">
-                    <FileText className="h-4 w-4 mr-2" />
-                    New Article
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/listings/new">
-                    <Store className="h-4 w-4 mr-2" />
-                    New Listing
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href="/dashboard/ads/new">
-                    <Tag className="h-4 w-4 mr-2" />
-                    New Ad
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {(showArticles || showListings || showClassifieds) && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create New
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {showArticles ? (
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/articles/new">
+                        <FileText className="h-4 w-4 mr-2" />
+                        New Article
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : null}
+                  {showListings ? (
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/listings/new">
+                        <Store className="h-4 w-4 mr-2" />
+                        New Listing
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : null}
+                  {showClassifieds ? (
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/ads/new">
+                        <Tag className="h-4 w-4 mr-2" />
+                        New classified
+                      </Link>
+                    </DropdownMenuItem>
+                  ) : null}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
 
@@ -435,18 +452,19 @@ export default function DashboardPage() {
               transition={{ delay: 0.3 }}
               className="bg-card rounded-xl border border-border"
             >
-              <Tabs defaultValue="articles" className="w-full">
+              <Tabs defaultValue={defaultContentTab} className="w-full">
                 <div className="px-6 pt-6">
                   <h2 className="text-lg font-semibold text-foreground mb-4">
                     My Content
                   </h2>
                   <TabsList className="w-full justify-start bg-muted/50">
-                    <TabsTrigger value="articles">Articles</TabsTrigger>
-                    <TabsTrigger value="listings">Listings</TabsTrigger>
-                    <TabsTrigger value="ads">Ads</TabsTrigger>
+                    {showArticles ? <TabsTrigger value="articles">Articles</TabsTrigger> : null}
+                    {showListings ? <TabsTrigger value="listings">Listings</TabsTrigger> : null}
+                    {showClassifieds ? <TabsTrigger value="ads">Classifieds</TabsTrigger> : null}
                   </TabsList>
                 </div>
 
+                {showArticles ? (
                 <TabsContent value="articles" className="p-6 pt-4">
                   <div className="space-y-4">
                     {myContent.articles.map((article) => (
@@ -512,7 +530,9 @@ export default function DashboardPage() {
                     </Link>
                   </Button>
                 </TabsContent>
+                ) : null}
 
+                {showListings ? (
                 <TabsContent value="listings" className="p-6 pt-4">
                   <div className="space-y-4">
                     {myContent.listings.map((listing) => (
@@ -578,7 +598,9 @@ export default function DashboardPage() {
                     </Link>
                   </Button>
                 </TabsContent>
+                ) : null}
 
+                {showClassifieds ? (
                 <TabsContent value="ads" className="p-6 pt-4">
                   <div className="space-y-4">
                     {myContent.ads.map((ad) => (
@@ -643,11 +665,12 @@ export default function DashboardPage() {
                   </div>
                   <Button variant="outline" className="w-full mt-4" asChild>
                     <Link href="/dashboard/ads">
-                      View all ads
+                      View all classifieds
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>
                   </Button>
                 </TabsContent>
+                ) : null}
               </Tabs>
             </motion.div>
           </div>
@@ -743,31 +766,46 @@ export default function DashboardPage() {
                 Quick Actions
               </h2>
               <div className="space-y-2">
+                {showArticles ? (
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <Link href="/dashboard/articles/new">
+                      <FileText className="h-4 w-4 mr-3" />
+                      Write new article
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                  </Button>
+                ) : null}
+                {showListings ? (
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <Link href="/dashboard/listings/new">
+                      <Store className="h-4 w-4 mr-3" />
+                      Add business listing
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                  </Button>
+                ) : null}
+                {showClassifieds ? (
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <Link href="/dashboard/ads/new">
+                      <Tag className="h-4 w-4 mr-3" />
+                      Post classified ad
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                  </Button>
+                ) : null}
+                {isTaskEnabled("sbm") ? (
+                  <Button variant="outline" className="w-full justify-start" asChild>
+                    <Link href="/sbm">
+                      <BarChart3 className="h-4 w-4 mr-3" />
+                      Open Social Bookmarks
+                      <ChevronRight className="h-4 w-4 ml-auto" />
+                    </Link>
+                  </Button>
+                ) : null}
                 <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/dashboard/articles/new">
-                    <FileText className="h-4 w-4 mr-3" />
-                    Write new article
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/dashboard/listings/new">
-                    <Store className="h-4 w-4 mr-3" />
-                    Add business listing
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/dashboard/ads/new">
-                    <Tag className="h-4 w-4 mr-3" />
-                    Post classified ad
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/sbm">
-                    <BarChart3 className="h-4 w-4 mr-3" />
-                    Open Social Bookmarks
+                  <Link href="/classifieds">
+                    <ExternalLink className="h-4 w-4 mr-3" />
+                    Browse live board
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   </Link>
                 </Button>
