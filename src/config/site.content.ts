@@ -2,25 +2,24 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Classified platform',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Classified platform',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
-    description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+    badge: 'Trusted classifieds',
+    title: ['Find what you need in', 'local listings that stay organized.'],
+    description: 'A classified marketplace for Mujugranfondo—jobs, goods, housing, and services in one calm layout.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Browse classifieds',
+      href: '/classifieds',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'Post an ad',
+      href: '/register',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'Search classifieds by keyword or location',
     focusLabel: 'Focus',
     featureCardBadge: 'latest cover rotation',
     featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
@@ -29,45 +28,42 @@ export const siteContent = {
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
-      description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
-      openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+      title: 'Classifieds for Mujugranfondo',
+      description: 'Browse and post local classifieds—jobs, for sale, housing, and services.',
+      openGraphTitle: 'Classifieds for Mujugranfondo',
+      openGraphDescription: 'Discover nearby deals, roles, and housing with a clean classified experience.',
+      keywords: ['classifieds', 'local ads', 'jobs', 'housing', 'for sale', 'Mujugranfondo'],
     },
     introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introTitle: 'Built for local buyers, sellers, and renters—not generic feeds.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This site keeps classified browsing structured so people can scan categories quickly and act with confidence.',
+      'Posting stays lightweight: clear titles, photos, and pricing cues without noisy clutter.',
+      'Whether you are hiring, decluttering, or searching for a place, the layout keeps the next step obvious.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Classified-first homepage with strong category lanes.',
+      'Search and filters tuned for local discovery.',
+      'Account tools to manage drafts, renewals, and messages.',
+      'Fast pages that stay readable on mobile.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Browse classifieds',
+      href: '/classifieds',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'Post an ad',
+      href: '/register',
     },
   },
   cta: {
     badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
-    description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+    title: 'Find your next deal, hire, or home through focused classified browsing.',
+    description: 'Post in minutes, search with intent, and keep conversations organized.',
     primaryCta: {
-      label: 'Get Started Free',
-      href: '/register',
+      label: 'Browse classifieds',
+      href: '/classifieds',
     },
     secondaryCta: {
       label: 'Contact Sales',
@@ -81,31 +77,31 @@ export const siteContent = {
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
   article: {
     title: 'Articles and stories',
-    description: 'Read articles, stories, guides, and long-form posts across topics and interests.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   listing: {
     title: 'Listings and discoverable pages',
-    description: 'Explore listings, services, brands, and structured pages organized for easier browsing.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   classified: {
     title: 'Classifieds and announcements',
-    description: 'Browse classifieds, offers, notices, and time-sensitive posts across categories.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   image: {
     title: 'Images and visual posts',
-    description: 'Explore image-led posts, galleries, and visual stories from across the platform.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   profile: {
     title: 'Profiles and public pages',
-    description: 'Discover public profiles, brand pages, and identity-focused posts in one place.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   sbm: {
     title: 'Curated links and saved resources',
-    description: 'Browse useful links, saved references, and curated resources organized for discovery.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
   pdf: {
     title: 'PDFs and downloadable resources',
-    description: 'Open reports, documents, and downloadable resources shared across the platform.',
+    description: 'A Classified site for Mujugranfondo, built for clean discovery and structured publishing.',
   },
 }
 
