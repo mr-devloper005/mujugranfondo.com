@@ -27,7 +27,7 @@ const lanes = [
 ]
 
 export default function ContactPage() {
-  const email = `hello@${siteIdentity.domain}`
+  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || `hello@${siteIdentity.domain}`
 
   return (
     <ClassifiedSitePage

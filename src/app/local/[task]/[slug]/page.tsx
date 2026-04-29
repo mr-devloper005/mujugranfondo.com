@@ -177,10 +177,10 @@ export default function LocalPostDetailPage() {
             ) : null}
           </div>
         ) : (
-          <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
-            <div>
+          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="space-y-6">
               <TaskImageCarousel images={images} />
-              <div className="mt-6">
+              <div className="rounded-[2rem] border border-border/70 bg-card p-7 shadow-sm">
                 <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                   <Badge variant="secondary" className="inline-flex items-center gap-1">
                     <Tag className="h-3.5 w-3.5" />
@@ -197,8 +197,8 @@ export default function LocalPostDetailPage() {
                 <RichContent html={descriptionHtml} className="mt-3 max-w-3xl" />
               </div>
             </div>
-            <div className="space-y-4">
-              <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="space-y-5">
+              <div className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-sm">
                 <h2 className="text-base font-semibold text-foreground">Details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                   {content.website ? (
@@ -242,17 +242,17 @@ export default function LocalPostDetailPage() {
                 </div>
               </div>
               {content.highlights?.length ? (
-                <div className="rounded-2xl border border-border bg-card p-5">
+                <div className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-sm">
                   <h2 className="text-base font-semibold text-foreground">Highlights</h2>
                   <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                     {content.highlights.map((item) => (
-                      <li key={item}>• {item}</li>
+                      <li key={item}>- {item}</li>
                     ))}
                   </ul>
                 </div>
               ) : null}
               {mapEmbedUrl ? (
-                <div className="rounded-2xl border border-border bg-card p-4">
+                <div className="rounded-[2rem] border border-border/70 bg-card p-4 shadow-sm">
                   <h2 className="text-base font-semibold text-foreground">Location map</h2>
                   <div className="mt-3 overflow-hidden rounded-xl border border-border">
                     <iframe
@@ -272,3 +272,4 @@ export default function LocalPostDetailPage() {
     </div>
   );
 }
+
