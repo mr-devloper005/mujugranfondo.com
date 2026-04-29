@@ -25,12 +25,6 @@ const testimonials = [
   { name: 'Daniel Ortiz', role: 'Seller', quote: 'Sold my bike in three days. Photos and price controls made the listing easy to trust.', rating: 4 },
 ]
 
-const insights = [
-  { date: '12 Apr 2026', title: 'How to write classified ads that convert', href: '/blog', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80' },
-  { date: '02 Apr 2026', title: 'Pricing local services with confidence', href: '/blog', image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80' },
-  { date: '22 Mar 2026', title: 'Safety tips for in-person pickups', href: '/contact', image: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80' },
-]
-
 export async function ClassifiedHomeView() {
   const classifiedPosts = await fetchTaskPosts('classified', 8, { allowMockFallback: false, fresh: true })
   const featured = classifiedPosts.slice(0, 3)
@@ -230,32 +224,6 @@ export async function ClassifiedHomeView() {
               <p className="mt-4 text-sm leading-relaxed text-[#666666]">&ldquo;{t.quote}&rdquo;</p>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section className="border-t border-[#eef2f6] bg-white py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#C32121]">Insights</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0A1D37]">Tips for smarter classified posting</h2>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {insights.map((post) => (
-              <Link key={post.title} href={post.href} className="group overflow-hidden rounded-xl border border-[#eef2f6] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-                <div className="relative h-44 w-full overflow-hidden">
-                  <Image src={post.image} alt="" fill className="object-cover transition duration-500 group-hover:scale-105" sizes="33vw" />
-                </div>
-                <div className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#666666]">{post.date}</p>
-                  <h3 className="mt-2 text-lg font-semibold text-[#0A1D37]">{post.title}</h3>
-                  <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-[#C32121]">
-                    Read more
-                    <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 

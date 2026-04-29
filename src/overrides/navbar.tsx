@@ -30,7 +30,7 @@ export function NavbarOverride() {
   const pathname = usePathname()
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
-  const contactEmail = `hello@${siteIdentity.domain}`
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || `hello@${siteIdentity.domain}`
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
