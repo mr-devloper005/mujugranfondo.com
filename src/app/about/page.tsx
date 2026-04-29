@@ -121,30 +121,6 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-14">
-        <ClassifiedSectionLabel>People behind the desk</ClassifiedSectionLabel>
-        <h2 className="mt-3 text-2xl font-semibold text-[#0A1D37]">Meet the team</h2>
-        <p className="mt-2 max-w-2xl text-sm text-[#666666]">We keep the lights on, answer emails, and ship improvements every week.</p>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {mockTeamMembers.map((member) => (
-            <ClassifiedContentCard key={member.id} className="p-6">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12 border border-[#eef2f6]">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback className="bg-[#0A1D37] text-white">{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-semibold text-[#0A1D37]">{member.name}</p>
-                  <p className="text-xs text-[#666666]">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#666666]">{member.bio}</p>
-              <p className="mt-3 text-xs font-medium text-[#C32121]">{member.location}</p>
-            </ClassifiedContentCard>
-          ))}
-        </div>
-      </div>
-
       <div className="mt-14 rounded-xl bg-[#0A1D37] px-6 py-10 text-center text-white sm:px-10">
         <h2 className="text-2xl font-semibold">Ready to post or browse?</h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-white/75">Jump into the board, or tell us what category we should spotlight next.</p>

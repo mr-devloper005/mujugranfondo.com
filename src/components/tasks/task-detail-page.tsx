@@ -311,12 +311,12 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             {!isArticle ? (
               <>
                 {!isBookmark ? (
-                  <div className={cn(isClassified ? "w-full" : "")}>
+                  <div className={cn(isClassified ? "w-full overflow-hidden rounded-[2rem] border border-border/70 bg-card p-2 shadow-sm" : "")}>
                     <TaskImageCarousel images={images} />
                   </div>
                 ) : null}
 
-                <div className={cn(isClassified ? "mx-auto w-full max-w-4xl" : "mt-6")}>
+                <div className={cn(isClassified ? "mx-auto w-full max-w-4xl rounded-[2rem] border border-border/70 bg-card p-7 shadow-sm" : "mt-6")}>
                   <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                     <Badge variant="secondary" className="inline-flex items-center gap-1">
                       <Tag className="h-3.5 w-3.5" />
@@ -336,7 +336,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             ) : null}
 
             {isClassified ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-6">
+              <div className="mx-auto w-full max-w-4xl rounded-[2rem] border border-border/70 bg-card p-7 shadow-sm">
                 <h2 className="text-lg font-semibold text-foreground">Business details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                   {content.website && (
@@ -380,18 +380,18 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             ) : null}
 
             {content.highlights?.length && !isArticle ? (
-              <div className={cn("mt-8 rounded-2xl border border-border bg-card p-6", isClassified ? "mx-auto w-full max-w-4xl" : "")}>
+              <div className={cn("mt-8 rounded-[2rem] border border-border/70 bg-card p-7 shadow-sm", isClassified ? "mx-auto w-full max-w-4xl" : "")}>
                 <h2 className="text-lg font-semibold text-foreground">Highlights</h2>
                 <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                   {content.highlights.map((item) => (
-                    <li key={item}>• {item}</li>
+                    <li key={item}>- {item}</li>
                   ))}
                 </ul>
               </div>
             ) : null}
 
             {isClassified && mapEmbedUrl ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-4">
+              <div className="mx-auto w-full max-w-4xl rounded-[2rem] border border-border/70 bg-card p-4 shadow-sm">
                 <p className="text-sm font-semibold text-foreground">Location map</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-border">
                   <iframe
@@ -408,7 +408,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
 
           {!hideSidebar ? (
             <aside className="space-y-6">
-            <div className="rounded-2xl border border-border bg-card p-6">
+            <div className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-foreground">Listing details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                   {content.website && (
@@ -458,7 +458,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             </div>
 
             {mapEmbedUrl ? (
-              <div className="rounded-2xl border border-border bg-card p-4">
+              <div className="rounded-[2rem] border border-border/70 bg-card p-4 shadow-sm">
                 <p className="text-sm font-semibold text-foreground">Location map</p>
                 <div className="mt-4 overflow-hidden rounded-xl border border-border">
                   <iframe
@@ -541,3 +541,4 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     </div>
   );
 }
+
