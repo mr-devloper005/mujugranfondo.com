@@ -2,7 +2,7 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Classified platform',
+    tagline: '',
   },
   footer: {
     tagline: 'Classified platform',
@@ -17,7 +17,7 @@ export const siteContent = {
     },
     secondaryCta: {
       label: 'Post an ad',
-      href: '/register',
+      href: '/create/classified',
     },
     searchPlaceholder: 'Search classifieds by keyword or location',
     focusLabel: 'Focus',
@@ -54,7 +54,7 @@ export const siteContent = {
     },
     secondaryLink: {
       label: 'Post an ad',
-      href: '/register',
+      href: '/create/classified',
     },
   },
   cta: {
@@ -143,9 +143,7 @@ export const taskIntroCopy: Record<
       'Browse by category to find announcements quickly, then continue into related sections when you need more detail.',
     ],
     links: [
-      { label: 'Business listings', href: '/listings' },
-      { label: 'Read articles', href: '/articles' },
-      { label: 'View profiles', href: '/profile' },
+      { label: 'Home', href: '/' },
     ],
   },
   image: {

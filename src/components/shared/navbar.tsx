@@ -169,7 +169,7 @@ export function Navbar() {
                   <Link href="/login">Sign In</Link>
                 </Button>
                 <Button size="sm" asChild className={cn('rounded-full', palette.cta)}>
-                  <Link href="/register">
+                  <Link href="/create/classified">
                     <Plus className="mr-1 h-4 w-4" />
                     Add Listing
                   </Link>
@@ -307,7 +307,7 @@ export function Navbar() {
                 <Link href="/login">Sign In</Link>
               </Button>
               <Button size="sm" asChild className={style.cta}>
-                <Link href="/register">{isEditorial ? 'Subscribe' : isUtility ? 'Post Now' : 'Get Started'}</Link>
+                <Link href="/create/classified">{isEditorial ? 'Subscribe' : isUtility ? 'Post Now' : 'Get Started'}</Link>
               </Button>
             </div>
           )}

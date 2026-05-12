@@ -18,7 +18,7 @@ import { SITE_CONFIG } from '@/lib/site-config'
 const primary = [
   { title: 'Home', description: 'Hero, featured picks, and trust strip.', href: '/', icon: Home },
   { title: 'Classifieds', description: 'Live board with filters tuned for local inventory.', href: '/classifieds', icon: LayoutGrid },
-  { title: 'Post an ad', description: 'Open registration and start your first draft.', href: '/register', icon: Megaphone },
+  { title: 'Post an ad', description: 'Start your first draft and publish quickly.', href: '/create/classified', icon: Megaphone },
   { title: 'About', description: 'Mission, milestones, and the people behind the desk.', href: '/about', icon: Compass },
   { title: 'Contact', description: 'Lanes for support, safety, and partnerships.', href: '/contact', icon: FileText },
 ]
