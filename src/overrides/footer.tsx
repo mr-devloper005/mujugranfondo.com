@@ -9,16 +9,8 @@ const explore = [
   { name: 'Explore hub', href: '/explore' },
   { name: 'Home', href: '/' },
   { name: 'Classifieds', href: '/classifieds' },
-  { name: 'Post an ad', href: '/register' },
   { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
-]
-
-const categories = [
-  { name: 'Jobs & gigs', href: '/categories/jobs' },
-  { name: 'For sale', href: '/categories/for-sale' },
-  { name: 'Housing', href: '/categories/housing' },
-  { name: 'Services', href: '/categories/services' },
 ]
 
 const legal = [
@@ -34,7 +26,7 @@ export function FooterOverride() {
   return (
     <footer className="bg-[#0A1D37] text-white">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           <div>
             <Link href="/" className="inline-flex items-center gap-2">
               <span className="text-xl font-bold tracking-tight">
@@ -51,18 +43,6 @@ export function FooterOverride() {
             <ul className="mt-4 space-y-3 text-sm text-white/85">
               {explore.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="hover:text-white hover:underline">
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">Categories</h3>
-            <ul className="mt-4 space-y-3 text-sm text-white/85">
-              {categories.map((item) => (
-                <li key={item.name}>
                   <Link href={item.href} className="hover:text-white hover:underline">
                     {item.name}
                   </Link>

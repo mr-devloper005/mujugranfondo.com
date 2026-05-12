@@ -31,16 +31,11 @@ export async function ClassifiedHomeView() {
 
   return (
     <main className="bg-white">
-      <section className="relative isolate overflow-hidden bg-[#0A1D37] text-white">
-        <Image
-          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
-          alt=""
-          fill
-          priority
-          className="object-cover opacity-35"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1D37] via-[#0A1D37]/92 to-[#0A1D37]/75" />
+      <section className="relative isolate overflow-hidden bg-gradient-to-br from-[#0A1D37] via-[#0f2847] to-[#0A1D37] text-white">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgNDBMMCAwTDQwIDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]"></div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1D37] via-[#0A1D37]/90 to-[#0A1D37]/70" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:flex lg:min-h-[520px] lg:items-center lg:px-8 lg:py-24">
           <div className="max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/80">Trusted classifieds</p>
@@ -65,26 +60,6 @@ export async function ClassifiedHomeView() {
               </Link>
             </div>
           </div>
-          <div className="mt-12 w-full max-w-sm rounded-xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur-md lg:ml-auto lg:mt-0">
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80'].map((src, i) => (
-                  <span key={src} className="relative inline-flex h-10 w-10 overflow-hidden rounded-full ring-2 ring-[#0A1D37]">
-                    <Image src={src} alt="" width={40} height={40} className="object-cover" />
-                  </span>
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-1 text-amber-300">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className={`h-4 w-4 ${i < 4 ? 'fill-amber-300' : 'fill-amber-300/40'}`} />
-                  ))}
-                </div>
-                <p className="mt-1 text-sm font-semibold">4.8 average satisfaction</p>
-                <p className="text-xs text-white/70">Trusted by locals and small teams</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -107,9 +82,6 @@ export async function ClassifiedHomeView() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             <div className="relative col-span-2 row-span-2 min-h-[280px] overflow-hidden rounded-2xl sm:min-h-[320px]">
               <Image src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80" alt="Community" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
-            </div>
-            <div className="relative min-h-[150px] overflow-hidden rounded-2xl">
-              <Image src="https://images.unsplash.com/photo-1521791055366-05d90393b961?w=500&q=80" alt="Handshake" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
             </div>
             <div className="relative min-h-[150px] overflow-hidden rounded-2xl">
               <Image src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500&q=80" alt="Meeting" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />

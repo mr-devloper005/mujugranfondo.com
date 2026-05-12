@@ -8,9 +8,9 @@ import { mockTeamMembers } from '@/data/mock-data'
 import { SITE_CONFIG } from '@/lib/site-config'
 
 const milestones = [
-  { year: '2024', title: 'Local pilot', body: 'We opened a focused board for neighborhood trades, gigs, and housing leads.' },
-  { year: '2025', title: 'Trust tooling', body: 'Reporting, clearer seller cues, and faster renewals made listings easier to scan.' },
-  { year: '2026', title: 'Nationwide rhythm', body: 'Today we balance fresh inventory with calmer pages so serious buyers stay longer.' },
+  { title: 'Local pilot', body: 'We opened a focused board for neighborhood trades, gigs, and housing leads.' },
+  { title: 'Trust tooling', body: 'Reporting, clearer seller cues, and faster renewals made listings easier to scan.' },
+  { title: 'Nationwide rhythm', body: 'Today we balance fresh inventory with calmer pages so serious buyers stay longer.' },
 ]
 
 const pillars = [
@@ -111,10 +111,9 @@ export default function AboutPage() {
         <ClassifiedSectionLabel>Roadmap highlights</ClassifiedSectionLabel>
         <h2 className="mt-3 text-2xl font-semibold text-[#0A1D37]">Momentum you can feel</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          {milestones.map((m) => (
-            <div key={m.year} className="rounded-xl border border-[#eef2f6] bg-white p-6 shadow-sm">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#C32121]">{m.year}</p>
-              <h3 className="mt-2 text-lg font-semibold text-[#0A1D37]">{m.title}</h3>
+          {milestones.map((m, index) => (
+            <div key={index} className="rounded-xl border border-[#eef2f6] bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-semibold text-[#0A1D37]">{m.title}</h3>
               <p className="mt-2 text-sm text-[#666666]">{m.body}</p>
             </div>
           ))}

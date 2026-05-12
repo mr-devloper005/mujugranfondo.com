@@ -54,25 +54,6 @@ export default function ContactPage() {
               </div>
             </ClassifiedContentCard>
           ))}
-          <div className="rounded-xl border border-[#eef2f6] bg-white p-6 shadow-sm">
-            <ClassifiedSectionLabel>Direct lines</ClassifiedSectionLabel>
-            <ul className="mt-4 space-y-4 text-sm text-[#0A1D37]">
-              <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-[#C32121]" />
-                <a href={`mailto:${email}`} className="font-medium hover:text-[#C32121] hover:underline">
-                  {email}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-[#C32121]" />
-                <span>+82 10-0000-0000 · Weekdays 9a–6p KST</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Clock className="h-4 w-4 text-[#C32121]" />
-                <span>Moderation replies within one business day for most cases.</span>
-              </li>
-            </ul>
-          </div>
         </div>
 
         <ClassifiedContentCard>
