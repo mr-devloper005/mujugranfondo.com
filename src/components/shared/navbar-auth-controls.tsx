@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 
@@ -58,7 +58,6 @@ export function NavbarAuthControls() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="rounded-full text-[#0A1D37] hover:bg-[#f3f4f6]" aria-label="Account menu">
             <Avatar className="h-9 w-9 border border-[#e5e7eb]">
-              <AvatarImage src={user?.avatar} alt={user?.name} />
               <AvatarFallback className="bg-[#0A1D37] text-white">{user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
           </Button>
@@ -66,7 +65,6 @@ export function NavbarAuthControls() {
         <DropdownMenuContent align="end" className="w-56 border border-[#eef2f6] bg-white p-0">
           <div className="flex items-center gap-3 border-b border-[#eef2f6] px-3 py-3">
             <Avatar className="h-10 w-10 border border-[#e5e7eb]">
-              <AvatarImage src={user?.avatar} alt={user?.name} />
               <AvatarFallback className="bg-[#0A1D37] text-white">{user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="min-w-0 flex-1">

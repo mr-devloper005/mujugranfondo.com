@@ -4,11 +4,10 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ArrowRight, Mail, MapPin, Menu, Phone, Search, X } from 'lucide-react'
+import { ArrowRight, Menu, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { siteIdentity } from '@/config/site.identity'
 import { cn } from '@/lib/utils'
 
 export const NAVBAR_OVERRIDE_ENABLED = true
@@ -30,31 +29,9 @@ export function NavbarOverride() {
   const pathname = usePathname()
   const { isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || `hello@${siteIdentity.domain}`
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="bg-[#C32121] text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-2 text-xs sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin className="h-3.5 w-3.5 shrink-0" />
-              <span className="opacity-95">Serving {siteIdentity.name} &amp; nearby communities</span>
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <a href={`mailto:${contactEmail}`} className="inline-flex items-center gap-1.5 hover:underline">
-              <Mail className="h-3.5 w-3.5" />
-              {contactEmail}
-            </a>
-            <span className="inline-flex items-center gap-1.5">
-              <Phone className="h-3.5 w-3.5" />
-              +82 10-0000-0000
-            </span>
-          </div>
-        </div>
-      </div>
-
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-[#e5e7eb] bg-white p-0">
@@ -71,7 +48,6 @@ export function NavbarOverride() {
               {SITE_CONFIG.name}
               <span className="text-[#C32121]">.</span>
             </span>
-            <span className="hidden text-[10px] font-semibold uppercase tracking-[0.2em] text-[#666666] sm:block">Classifieds</span>
           </div>
         </Link>
 
@@ -109,7 +85,7 @@ export function NavbarOverride() {
                 <Link href="/login">Sign in</Link>
               </Button>
               <Button asChild className="hidden rounded-md border border-[#C32121] bg-white px-4 text-[#C32121] hover:bg-[#C32121] hover:text-white md:inline-flex">
-                <Link href="/register" className="inline-flex items-center gap-2">
+                <Link href="/create/classified" className="inline-flex items-center gap-2">
                   Post an ad
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -147,7 +123,7 @@ export function NavbarOverride() {
                   </Link>
                 </Button>
                 <Button asChild className="w-full rounded-md bg-[#C32121] text-white hover:bg-[#a61b1b]">
-                  <Link href="/register" onClick={() => setOpen(false)}>
+                  <Link href="/create/classified" onClick={() => setOpen(false)}>
                     Post an ad
                   </Link>
                 </Button>

@@ -61,6 +61,23 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
   const Icon = taskIcons[task] || LayoutGrid
 
   const isClassifiedLayout = layoutKey === 'classified-market' || layoutKey === 'classified-bulletin'
+  const categoryCounts = new Map<string, { slug: string; name: string; count: number }>()
+  for (const post of posts) {
+    const content = post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
+    const raw = typeof content.category === 'string' ? content.category.trim() : ''
+    if (!raw) continue
+    const slug = normalizeCategory(raw)
+    if (!slug || slug === 'all') continue
+    const matched = CATEGORY_OPTIONS.find((item) => item.slug === slug)
+    const name = matched?.name || raw
+    const existing = categoryCounts.get(slug)
+    if (existing) {
+      existing.count += 1
+    } else {
+      categoryCounts.set(slug, { slug, name, count: 1 })
+    }
+  }
+  const classifiedCategoryOptions = Array.from(categoryCounts.values()).sort((a, b) => b.count - a.count)
   const isDark = ['image-masonry', 'image-portfolio', 'profile-creator'].includes(layoutKey)
   const ui = isDark
     ? {
@@ -222,13 +239,64 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                     'Scan categories, compare prices, and message sellers without noisy feeds. Filters stay visible so you spend less time resetting your search.'}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Link href="/register" className="inline-flex items-center gap-2 rounded-md bg-[#C32121] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a61b1b]">
+                  <Link href="/create/classified" className="inline-flex items-center gap-2 rounded-md bg-[#C32121] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#a61b1b]">
                     Post an ad
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link href="/explore" className="inline-flex items-center gap-2 rounded-md border border-white/35 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur hover:bg-white/15">
                     Explore hub
                   </Link>
+                </div>
+                <div className="mt-7 rounded-xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/75">Filter categories</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Link
+                      href={taskConfig?.route || '/classifieds'}
+                      className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                        normalizedCategory === 'all' ? 'bg-white text-[#0A1D37]' : 'bg-white/10 text-white hover:bg-white/20'
+                      }`}
+                    >
+                      All
+                    </Link>
+                    {classifiedCategoryOptions.slice(0, 6).map((item) => (
+                      <Link
+                        key={item.slug}
+                        href={`${taskConfig?.route || '/classifieds'}?category=${encodeURIComponent(item.slug)}`}
+                        className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                          normalizedCategory === item.slug ? 'bg-white text-[#0A1D37]' : 'bg-white/10 text-white hover:bg-white/20'
+                        }`}
+                      >
+                        {item.name} ({item.count})
+                      </Link>
+                    ))}
+                  </div>
+                  <form action={taskConfig?.route || '/classifieds'} className="mt-3 flex flex-wrap items-center gap-2">
+                    <select
+                      name="category"
+                      defaultValue={normalizedCategory}
+                      className="h-10 min-w-[210px] rounded-md border border-white/20 bg-white/10 px-3 text-sm text-white outline-none focus:border-white/45"
+                    >
+                      <option value="all" className="text-[#0A1D37]">
+                        All categories
+                      </option>
+                      {classifiedCategoryOptions.map((item) => (
+                        <option key={item.slug} value={item.slug} className="text-[#0A1D37]">
+                          {item.name} ({item.count})
+                        </option>
+                      ))}
+                    </select>
+                    <button type="submit" className="h-10 rounded-md bg-white px-4 text-sm font-semibold text-[#0A1D37] hover:bg-white/90">
+                      Apply
+                    </button>
+                    {normalizedCategory !== 'all' ? (
+                      <Link
+                        href={taskConfig?.route || '/classifieds'}
+                        className="h-10 rounded-md border border-white/25 px-4 text-sm font-semibold leading-10 text-white hover:bg-white/10"
+                      >
+                        Reset
+                      </Link>
+                    ) : null}
+                  </form>
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">

@@ -18,7 +18,7 @@ const guides = [
   {
     title: 'Post your first ad',
     description: 'Photos, titles, pricing, and category tags that help buyers decide in seconds.',
-    href: '/register',
+    href: '/create/classified',
     icon: Tag,
   },
   {
