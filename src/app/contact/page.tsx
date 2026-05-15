@@ -6,6 +6,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { ClassifiedContentCard, ClassifiedSectionLabel, ClassifiedSitePage } from '@/components/classified/classified-site-page'
 import { SITE_CONFIG } from '@/lib/site-config'
+import { siteIdentity } from '@/config/site.identity'
+import { ContactLeadForm } from "@/components/shared/contact-lead-form";
 
 const lanes = [
   {
@@ -68,41 +70,7 @@ export default function ContactPage() {
           <p className="mt-2 text-sm text-[#666666]">
             This form is a UI previewâ€”wire it to your help desk when you are ready. For now it helps visitors see the fields we recommend collecting.
           </p>
-          <form className="mt-8 grid gap-5">
-            <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="c-name" className="text-sm font-medium text-[#0A1D37]">
-                  Name
-                </Label>
-                <Input id="c-name" placeholder="Your full name" className="h-11 border-[#e5e7eb] bg-white" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="c-email" className="text-sm font-medium text-[#0A1D37]">
-                  Email
-                </Label>
-                <Input id="c-email" type="email" placeholder="you@example.com" className="h-11 border-[#e5e7eb] bg-white" />
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="c-topic" className="text-sm font-medium text-[#0A1D37]">
-                Topic
-              </Label>
-              <Input id="c-topic" placeholder="e.g. Renewals, reporting a listing, partnership" className="h-11 border-[#e5e7eb] bg-white" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="c-body" className="text-sm font-medium text-[#0A1D37]">
-                Details
-              </Label>
-              <Textarea
-                id="c-body"
-                placeholder="Share links, ad IDs, and what outcome you need."
-                className="min-h-[160px] border-[#e5e7eb] bg-white text-sm"
-              />
-            </div>
-            <Button type="button" className="h-11 rounded-md bg-[#C32121] font-semibold text-white hover:bg-[#a61b1b]">
-              Send message
-            </Button>
-          </form>
+          <ContactLeadForm />
           <p className="mt-6 text-center text-xs text-[#666666]">
             Prefer self-serve?{' '}
             <Link href="/help" className="font-semibold text-[#C32121] hover:underline">
