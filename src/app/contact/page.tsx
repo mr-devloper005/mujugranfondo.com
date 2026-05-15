@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Clock, LifeBuoy, Mail, MapPin, MessageSquare, Phone } from 'lucide-react'
+import { Clock, LifeBuoy, MapPin, MessageSquare } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -17,7 +17,7 @@ const lanes = [
   },
   {
     title: 'Trust & safety',
-    body: 'Report suspicious listings, harassment, or scams—include links and screenshots.',
+    body: 'Report suspicious listings, harassment, or scamsâ€”include links and screenshots.',
     icon: LifeBuoy,
   },
   {
@@ -28,8 +28,6 @@ const lanes = [
 ]
 
 export default function ContactPage() {
-  const email = process.env.NEXT_PUBLIC_CONTACT_EMAIL || `hello@${siteIdentity.domain}`
-
   return (
     <ClassifiedSitePage
       eyebrow="Contact"
@@ -59,16 +57,6 @@ export default function ContactPage() {
             <ClassifiedSectionLabel>Direct lines</ClassifiedSectionLabel>
             <ul className="mt-4 space-y-4 text-sm text-[#0A1D37]">
               <li className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-[#C32121]" />
-                <a href={`mailto:${email}`} className="font-medium hover:text-[#C32121] hover:underline">
-                  {email}
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-[#C32121]" />
-                <span>+82 10-0000-0000 · Weekdays 9a–6p KST</span>
-              </li>
-              <li className="flex items-center gap-3">
                 <Clock className="h-4 w-4 text-[#C32121]" />
                 <span>Moderation replies within one business day for most cases.</span>
               </li>
@@ -80,7 +68,7 @@ export default function ContactPage() {
           <ClassifiedSectionLabel>Message us</ClassifiedSectionLabel>
           <h2 className="mt-2 text-2xl font-semibold text-[#0A1D37]">Send a note to {SITE_CONFIG.name}</h2>
           <p className="mt-2 text-sm text-[#666666]">
-            This form is a UI preview—wire it to your help desk when you are ready. For now it helps visitors see the fields we recommend collecting.
+            This form is a UI previewâ€”wire it to your help desk when you are ready. For now it helps visitors see the fields we recommend collecting.
           </p>
           <ContactLeadForm />
           <p className="mt-6 text-center text-xs text-[#666666]">

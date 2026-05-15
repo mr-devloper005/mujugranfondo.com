@@ -1,16 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, BadgeCheck, Headphones, PiggyBank, Shield, Star, Tag, Truck } from 'lucide-react'
+import { ArrowRight, BadgeCheck, Headphones, PiggyBank, Shield, Tag, Truck } from 'lucide-react'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import { SITE_CONFIG } from '@/lib/site-config'
-import { fetchTaskPosts } from '@/lib/task-data'
+import { fetchTaskPosts, getPostImages } from '@/lib/task-data'
 import { ClassifiedQuickFinder } from '@/components/classified/classified-quick-finder'
-
-const categoryCards = [
-  { title: 'Jobs & gigs', href: '/classifieds', image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80' },
-  { title: 'For sale', href: '/classifieds', image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80' },
-  { title: 'Housing', href: '/classifieds', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80' },
-]
 
 const features = [
   { title: 'Cost effective', body: 'Reach buyers and renters without heavy listing fees.', icon: PiggyBank },
@@ -19,15 +13,61 @@ const features = [
   { title: 'Safer trades', body: 'Clear profiles and reporting tools to reduce noise.', icon: Shield },
 ]
 
-const testimonials = [
-  { name: 'Ravi Malhotra', role: 'Small business owner', quote: 'We filled two roles in a week. The flow is simple and serious buyers showed up fast.', rating: 5 },
-  { name: 'Sora Kim', role: 'Community organizer', quote: 'Posting neighborhood notices here feels cleaner than scattered group chats.', rating: 5 },
-  { name: 'Daniel Ortiz', role: 'Seller', quote: 'Sold my bike in three days. Photos and price controls made the listing easy to trust.', rating: 4 },
-]
-
 export async function ClassifiedHomeView() {
   const classifiedPosts = await fetchTaskPosts('classified', 8, { allowMockFallback: false, fresh: true })
   const featured = classifiedPosts.slice(0, 3)
+  const categoryFallbackImages = [
+    'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&q=80',
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80',
+  ]
+
+  const categoryMap = new Map<
+    string,
+    { title: string; slug: string; count: number; image?: string }
+  >()
+  for (const post of classifiedPosts) {
+    const content = post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
+    const contentCategory = typeof content.category === 'string' ? content.category.trim() : ''
+    const tagCategory = Array.isArray(post.tags)
+      ? post.tags.find((tag) => typeof tag === 'string' && tag.toLowerCase() !== 'classified')
+      : ''
+    const rawCategory = (contentCategory || tagCategory || 'General').trim()
+    const slug = rawCategory.toLowerCase().replace(/\s+/g, '-')
+    const entry = categoryMap.get(slug)
+    const postImage = getPostImages(post)[0]
+
+    if (entry) {
+      entry.count += 1
+      if (!entry.image && postImage) entry.image = postImage
+    } else {
+      categoryMap.set(slug, {
+        title: rawCategory,
+        slug,
+        count: 1,
+        image: postImage,
+      })
+    }
+  }
+
+  const categoryCards = Array.from(categoryMap.values())
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 3)
+    .map((item, index) => ({
+      title: item.title,
+      href: `/classifieds?category=${encodeURIComponent(item.slug)}`,
+      image: item.image || categoryFallbackImages[index % categoryFallbackImages.length],
+      count: item.count,
+    }))
+
+  const visibleCategoryCards =
+    categoryCards.length > 0
+      ? categoryCards
+      : [
+          { title: 'General', href: '/classifieds', image: categoryFallbackImages[0], count: 0 },
+          { title: 'Updates', href: '/classifieds', image: categoryFallbackImages[1], count: 0 },
+          { title: 'Community', href: '/classifieds', image: categoryFallbackImages[2], count: 0 },
+        ]
 
   return (
     <main className="bg-white">
@@ -43,12 +83,12 @@ export async function ClassifiedHomeView() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0A1D37] via-[#0A1D37]/92 to-[#0A1D37]/75" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:flex lg:min-h-[520px] lg:items-center lg:px-8 lg:py-24">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/80">Trusted classifieds</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/80">Trusted platform</p>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Reliable local listings, posted{' '}
+              Reliable local content, shared{' '}
               <span className="text-[#C32121]">everywhere</span> you care about
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">{SITE_CONFIG.description}</p>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80">Built for clean discovery, structured publishing, and effortless updates across categories.</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/classifieds"
@@ -58,7 +98,7 @@ export async function ClassifiedHomeView() {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/register"
+                href="/create/classified"
                 className="inline-flex items-center gap-2 rounded-md border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur hover:bg-white/15"
               >
                 Post an ad
@@ -66,24 +106,28 @@ export async function ClassifiedHomeView() {
             </div>
           </div>
           <div className="mt-12 w-full max-w-sm rounded-xl border border-white/15 bg-white/10 p-5 shadow-2xl backdrop-blur-md lg:ml-auto lg:mt-0">
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80'].map((src, i) => (
-                  <span key={src} className="relative inline-flex h-10 w-10 overflow-hidden rounded-full ring-2 ring-[#0A1D37]">
-                    <Image src={src} alt="" width={40} height={40} className="object-cover" />
-                  </span>
-                ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-1 text-amber-300">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className={`h-4 w-4 ${i < 4 ? 'fill-amber-300' : 'fill-amber-300/40'}`} />
-                  ))}
-                </div>
-                <p className="mt-1 text-sm font-semibold">4.8 average satisfaction</p>
-                <p className="text-xs text-white/70">Trusted by locals and small teams</p>
-              </div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/75">Browse categories</p>
+            <p className="mt-2 text-lg font-semibold text-white">Jump straight to what you need</p>
+            <div className="mt-4 space-y-2">
+              {visibleCategoryCards.map((card) => (
+                <Link
+                  key={card.title}
+                  href={card.href}
+                  className="flex items-center justify-between rounded-md bg-white/10 px-3 py-2 text-sm text-white/90 transition hover:bg-white/20 hover:text-white"
+                >
+                  <span>{card.title}</span>
+                  <span className="ml-auto mr-2 text-xs text-white/70">{card.count}</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              ))}
             </div>
+            <Link
+              href="/classifieds"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-white/80"
+            >
+              See more
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -109,7 +153,7 @@ export async function ClassifiedHomeView() {
               <Image src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=900&q=80" alt="Community" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 50vw" />
             </div>
             <div className="relative min-h-[150px] overflow-hidden rounded-2xl">
-              <Image src="https://images.unsplash.com/photo-1521791055366-05d90393b961?w=500&q=80" alt="Handshake" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
+              <Image src="/placeholder-user.jpg" alt="Handshake" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
             </div>
             <div className="relative min-h-[150px] overflow-hidden rounded-2xl">
               <Image src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500&q=80" alt="Meeting" fill className="object-cover" sizes="(max-width: 1024px) 50vw, 25vw" />
@@ -124,7 +168,7 @@ export async function ClassifiedHomeView() {
           <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0A1D37]">How we organize classified excellence</h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[#666666]">Jump into the lanes people use most—jobs, goods, and housing stay separated so browsing stays fast.</p>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {categoryCards.map((card) => (
+            {visibleCategoryCards.map((card) => (
               <Link key={card.title} href={card.href} className="group overflow-hidden rounded-xl bg-white shadow-[0_10px_40px_rgba(10,29,55,0.08)] ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-lg">
                 <div className="relative h-48 w-full">
                   <Image src={card.image} alt="" fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width:768px) 100vw, 33vw" />
@@ -201,32 +245,6 @@ export async function ClassifiedHomeView() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#C32121]">Voices</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-[#0A1D37]">What our community says</h2>
-        </div>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {testimonials.map((t) => (
-            <div key={t.name} className="rounded-xl border border-[#eef2f6] bg-white p-6 shadow-[0_12px_32px_rgba(10,29,55,0.06)]">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0A1D37] text-sm font-semibold text-white">{t.name.slice(0, 1)}</div>
-                <div>
-                  <p className="font-semibold text-[#0A1D37]">{t.name}</p>
-                  <p className="text-xs text-[#666666]">{t.role}</p>
-                </div>
-              </div>
-              <div className="mt-3 flex gap-1 text-amber-400">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < t.rating ? 'fill-amber-400' : 'fill-transparent'}`} />
-                ))}
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#666666]">&ldquo;{t.quote}&rdquo;</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="bg-[#0A1D37] py-14 text-white">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
           <div>
@@ -234,7 +252,7 @@ export async function ClassifiedHomeView() {
             <p className="mt-2 max-w-xl text-sm text-white/75">Create an account, add photos, and publish in minutes.</p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/register" className="inline-flex items-center gap-2 rounded-md bg-[#C32121] px-6 py-3 text-sm font-semibold text-white hover:bg-[#a61b1b]">
+            <Link href="/create/classified" className="inline-flex items-center gap-2 rounded-md bg-[#C32121] px-6 py-3 text-sm font-semibold text-white hover:bg-[#a61b1b]">
               Post classified
               <ArrowRight className="h-4 w-4" />
             </Link>

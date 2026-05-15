@@ -126,7 +126,7 @@ export default function AboutPage() {
         <p className="mx-auto mt-3 max-w-xl text-sm text-white/75">Jump into the board, or tell us what category we should spotlight next.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild className="rounded-md bg-[#C32121] font-semibold text-white hover:bg-[#a61b1b]">
-            <Link href="/register">Post an ad</Link>
+            <Link href="/create/classified">Post an ad</Link>
           </Button>
           <Button asChild variant="outline" className="rounded-md border-white/40 bg-transparent font-semibold text-white hover:bg-white/10">
             <Link href="/explore">Explore the site</Link>
